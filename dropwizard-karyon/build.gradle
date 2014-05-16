@@ -6,9 +6,12 @@ sourceCompatibility = '1.8'
 dependencies {
     compile 'io.dropwizard:dropwizard-core:0.7.0'
 
-    compile("com.netflix.eureka:eureka-client:1.1.132") {
+    compile "com.netflix.archaius:archaius-core:0.5.11"
+    compile "com.netflix.karyon:karyon-core:1.0.19"
+    compile("com.netflix.karyon:karyon-extensions:1.0.19") {
         exclude group: "javax.servlet"
     }
+    compile 'com.page5of4.dropwizard:dropwizard-eureka-client:0.1.0'
 
     testCompile 'junit:junit:4.11'
 }

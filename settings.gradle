@@ -1,1 +1,1 @@
-include 'dropwizard-eureka-client', 'dropwizard-eureka-server'
+include 'dropwizard-karyon', 'dropwizard-eureka-client', 'dropwizard-eureka-server'

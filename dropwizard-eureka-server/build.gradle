@@ -2,13 +2,7 @@ apply plugin: 'java'
 apply plugin: 'application'
 
 sourceCompatibility = '1.8'
-
 mainClassName = 'com.page5of4.dropwizard.eureka.Main'
-version = '0.1.0'
-
-repositories {
-    mavenCentral()
-}
 
 configurations {
     capsule
@@ -20,27 +14,19 @@ run {
 
 dependencies {
     compile 'io.dropwizard:dropwizard-core:0.7.0'
+    compile 'org.slf4j:log4j-over-slf4j:1.6.1'
+    capsule 'co.paralleluniverse:capsule:0.4.0'
 
     compile "com.google.guava:guava:14.0.1"
+    compile "com.netflix.archaius:archaius-core:0.5.11"
     compile("com.netflix.karyon:karyon-core:2.0.02") {
         exclude group: "javax.servlet"
     }
-    compile "com.netflix.archaius:archaius-core:0.5.11"
     compile("com.netflix.eureka:eureka-core:1.1.132") {
         exclude group: "javax.servlet"
     }
 
-    compile "org.apache.commons:commons-io:1.3.2"
-    /*
-    compile "com.netflix.karyon:karyon-extensions:1.0.19"
-    compile "com.netflix.governator:governator:1.2.1"
-    compile("com.netflix.eureka:eureka-client:1.1.132") {
-        exclude group: "javax.servlet"
-    }
-    */
-    compile 'org.slf4j:log4j-over-slf4j:1.6.1'
-
-    capsule 'co.paralleluniverse:capsule:0.4.0'
+    compile 'com.page5of4.dropwizard:dropwizard-eureka-client:0.1.0'
 }
 
 task capsule(type: Jar, dependsOn: classes) {
