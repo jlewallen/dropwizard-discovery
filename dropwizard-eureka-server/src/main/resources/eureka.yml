@@ -1,0 +1,7 @@
+server:
+  type: simple
+  applicationContextPath: /eureka
+  adminContextPath: /admin
+  connector:
+    type: http
+    port: 90

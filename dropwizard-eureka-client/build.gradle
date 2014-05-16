@@ -1,0 +1,32 @@
+apply plugin: 'java'
+apply plugin: 'application'
+
+sourceCompatibility = '1.8'
+version = '0.1.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'io.dropwizard:dropwizard-core:0.7.0'
+
+    testCompile 'junit:junit:4.11'
+}
+
+task capsule(type: Jar, dependsOn: classes) {
+    archiveName = "dropwizard-eureka-client.jar"
+
+    from jar
+    from { configurations.runtime }
+
+    manifest {
+        attributes(
+                'Main-Class': 'Capsule',
+                'Application-Version': version,
+                'Min-Java-Version': '1.8.0',
+                'JVM-Args': run.jvmArgs.join(' '),
+                'System-Properties': run.systemProperties.collect { k, v -> "$k=$v" }.join(' '),
+        )
+    }
+}
