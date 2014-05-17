@@ -10,6 +10,8 @@ dependencies {
         exclude group: "javax.servlet"
     }
 
+    compile 'com.page5of4.dropwizard:dropwizard-discovery:0.1.0'
+
     testCompile 'junit:junit:4.11'
 }
 

@@ -12,7 +12,7 @@ class DropwizardServerHelpers {
       if(serverFactory instanceof SimpleServerFactory) {
          return getPort(((SimpleServerFactory)serverFactory).getConnector());
       }
-      else if (serverFactory instanceof DefaultServerFactory) {
+      else if(serverFactory instanceof DefaultServerFactory) {
          return getPort(((DefaultServerFactory)serverFactory).getApplicationConnectors().get(0));
       }
       throw new RuntimeException("Unable to infer Port of " + serverFactory);
@@ -22,7 +22,7 @@ class DropwizardServerHelpers {
       if(serverFactory instanceof SimpleServerFactory) {
          return getPort(((SimpleServerFactory)serverFactory).getConnector());
       }
-      else if (serverFactory instanceof DefaultServerFactory) {
+      else if(serverFactory instanceof DefaultServerFactory) {
          return getPort(((DefaultServerFactory)serverFactory).getAdminConnectors().get(0));
       }
       throw new RuntimeException("Unable to infer AdminPort of " + serverFactory);
