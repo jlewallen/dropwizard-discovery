@@ -1,19 +1,20 @@
 package com.page5of4.dropwizard;
 
 import com.netflix.appinfo.ApplicationInfoManager;
-import com.netflix.appinfo.CloudInstanceConfig;
 import com.netflix.appinfo.EurekaInstanceConfig;
 import com.netflix.appinfo.InstanceInfo;
-import com.netflix.appinfo.MyDataCenterInstanceConfig;
 import com.netflix.config.ConfigurationManager;
 import com.netflix.config.DynamicPropertyFactory;
 import com.netflix.discovery.DefaultEurekaClientConfig;
 import com.netflix.discovery.DiscoveryManager;
+import com.page5of4.dropwizard.discovery.DiscoveryMetadataProvider;
 import io.dropwizard.lifecycle.Managed;
 import io.dropwizard.server.ServerFactory;
 import org.apache.commons.configuration.BaseConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Collection;
 
 public class EurekaInstance implements Managed {
    private static final String EUREKA_DATACENTER_TYPE_PROP_NAME = "datacenter.type";
@@ -21,12 +22,14 @@ public class EurekaInstance implements Managed {
    private static final Logger logger = LoggerFactory.getLogger(EurekaInstance.class);
    private final ConfiguresEurekaClient configuration;
    private final EurekaClientHealthCheck healthCheck;
+   private final Collection<DiscoveryMetadataProvider> discoveryMetadataProviders;
    private final String eurekaNamespace = "eureka.";
    private final String datacenterType;
 
-   public EurekaInstance(ConfiguresEurekaClient configuration, EurekaClientHealthCheck healthCheck) {
+   public EurekaInstance(ConfiguresEurekaClient configuration, EurekaClientHealthCheck healthCheck, Collection<DiscoveryMetadataProvider> discoveryMetadataProviders) {
       this.configuration = configuration;
       this.healthCheck = healthCheck;
+      this.discoveryMetadataProviders = discoveryMetadataProviders;
       this.datacenterType = INSTANCE.getStringProperty(eurekaNamespace + EUREKA_DATACENTER_TYPE_PROP_NAME, "developer").get();
    }
 
@@ -49,7 +52,7 @@ public class EurekaInstance implements Managed {
       baseConfiguration.setProperty(eurekaNamespace + "statusPageUrl", String.format("http://${eureka.hostname}:%d/healthcheck", adminPort));
       ConfigurationManager.loadPropertiesFromConfiguration(baseConfiguration);
 
-      EurekaInstanceConfig eurekaInstanceConfig = createEurekaInstanceConfig();
+      EurekaInstanceConfig eurekaInstanceConfig = createEurekaInstanceConfig(discoveryMetadataProviders);
 
       DiscoveryManager.getInstance().initComponent(eurekaInstanceConfig, new DefaultEurekaClientConfig(eurekaNamespace));
 
@@ -58,15 +61,16 @@ public class EurekaInstance implements Managed {
       markAsUp();
    }
 
-   protected EurekaInstanceConfig createEurekaInstanceConfig() {
+   protected EurekaInstanceConfig createEurekaInstanceConfig(Collection<DiscoveryMetadataProvider> discoveryMetadataProviders) {
       switch(datacenterType.toLowerCase()) {
       case "amazon":
-         return new CloudInstanceConfig(eurekaNamespace);
+         // return new CloudInstanceConfig(eurekaNamespace);
       case "developer":
-         return new DeveloperMachineDataCenterInstanceConfig(eurekaNamespace);
+         return new DeveloperMachineDataCenterInstanceConfig(eurekaNamespace, discoveryMetadataProviders);
       default:
-         return new MyDataCenterInstanceConfig(eurekaNamespace);
+         // return new MyDataCenterInstanceConfig(eurekaNamespace);
       }
+      throw new RuntimeException("TODO: Make other InstanceConfig's work with metadata providers.");
    }
 
    @Override
