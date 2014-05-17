@@ -1,0 +1,14 @@
+apply plugin: 'java'
+apply plugin: 'application'
+
+sourceCompatibility = '1.8'
+
+dependencies {
+    compile 'io.dropwizard:dropwizard-core:0.7.0'
+
+    compile('org.apache.curator:curator-x-discovery:2.4.2') {
+        exclude group: "org.slf4j", module: "slf4j-log4j12"
+    }
+
+    testCompile 'junit:junit:4.11'
+}
