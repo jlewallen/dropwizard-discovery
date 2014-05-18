@@ -11,7 +11,7 @@ dependencies {
     compile("com.netflix.karyon:karyon-extensions:1.0.19") {
         exclude group: "javax.servlet"
     }
-    compile 'com.page5of4.dropwizard:dropwizard-eureka-client:0.1.0'
+    compile project(':dropwizard-eureka-client')
 
     testCompile 'junit:junit:4.11'
 }
