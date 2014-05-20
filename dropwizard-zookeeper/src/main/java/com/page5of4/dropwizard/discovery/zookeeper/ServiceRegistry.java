@@ -19,6 +19,7 @@ public class ServiceRegistry implements Managed {
    private static ServiceRegistry singleton;
    private final CuratorFramework curatorClient;
    private final Map<Class<?>, ServiceDiscovery<?>> discoveryCache = Maps.newHashMap();
+   private final Map<Object, ServiceDiscovery<?>> publishers = Maps.newHashMap();
    private final String path;
    private boolean started;
 
@@ -82,7 +83,15 @@ public class ServiceRegistry implements Managed {
 
    @SuppressWarnings("unchecked")
    public <T> void publish(String name, T service) {
-      getServiceDiscovery((Class<T>)service.getClass(), name, service);
+      publishers.put(service, getServiceDiscovery((Class<T>)service.getClass(), name, service));
+   }
+
+   @SuppressWarnings("unchecked")
+   public <T> void unpublish(T service) {
+      if(publishers.containsKey(service)) {
+         CloseableUtils.closeQuietly(publishers.get(service));
+         publishers.remove(service);
+      }
    }
 
    @Override

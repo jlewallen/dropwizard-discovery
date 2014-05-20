@@ -1,16 +1,15 @@
 package com.page5of4.dropwizard.discovery.zookeeper;
 
-import io.dropwizard.Bundle;
+import io.dropwizard.ConfiguredBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+import org.apache.curator.framework.CuratorFramework;
 
-public class ZooKeeperBundle implements Bundle {
+public class ZooKeeperBundle implements ConfiguredBundle<ConfiguresZooKeeper> {
    private boolean startServer;
-   private String connectString;
 
-   public ZooKeeperBundle(boolean startServer, String connectString) {
+   public ZooKeeperBundle(boolean startServer) {
       this.startServer = startServer;
-      this.connectString = connectString;
    }
 
    @Override
@@ -18,12 +17,13 @@ public class ZooKeeperBundle implements Bundle {
    }
 
    @Override
-   public void run(Environment environment) {
+   public void run(ConfiguresZooKeeper configuration, Environment environment) {
       if(startServer) {
          environment.lifecycle().manage(new ManagedZooKeeperServer());
       }
-      ManagedCurator managedCurator = new ManagedCurator(connectString);
-      ServiceRegistry serviceRegistry = new ServiceRegistry(managedCurator.getCuratorClient(), "/services/");
+      CuratorFramework curator = configuration.getZooKeeperConfiguration().getCurator();
+      ManagedCurator managedCurator = new ManagedCurator(curator);
+      ServiceRegistry serviceRegistry = new ServiceRegistry(curator, configuration.getZooKeeperConfiguration().getServicesPath());
 
       environment.lifecycle().manage(managedCurator);
       environment.lifecycle().manage(serviceRegistry);
