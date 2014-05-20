@@ -27,5 +27,6 @@ public class ZooKeeperBundle implements ConfiguredBundle<ConfiguresZooKeeper> {
 
       environment.lifecycle().manage(managedCurator);
       environment.lifecycle().manage(serviceRegistry);
+      environment.healthChecks().register("zookeeper", new ZooKeeperHealthCheck(curator));
    }
 }
