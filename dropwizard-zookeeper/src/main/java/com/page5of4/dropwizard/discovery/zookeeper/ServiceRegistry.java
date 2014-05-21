@@ -9,6 +9,8 @@ import org.apache.curator.x.discovery.ServiceDiscovery;
 import org.apache.curator.x.discovery.ServiceDiscoveryBuilder;
 import org.apache.curator.x.discovery.ServiceInstance;
 import org.apache.curator.x.discovery.details.JsonInstanceSerializer;
+import org.apache.zookeeper.WatchedEvent;
+import org.apache.zookeeper.Watcher;
 
 import java.io.Closeable;
 import java.util.Collection;
@@ -60,6 +62,36 @@ public class ServiceRegistry implements Managed {
       catch(Exception e) {
          throw new RuntimeException(e);
       }
+   }
+
+   public <T> void watch(final Class<T> klass, final ServicesWatch<T> services) {
+      try {
+         services.notify(getServices(klass));
+      } finally {
+         rewatch(klass, services);
+      }
+   }
+
+   private <T> void rewatch(final Class<T> klass, final ServicesWatch<T> services) {
+      try {
+         curatorClient.getChildren().usingWatcher(new Watcher() {
+            @Override
+            public void process(WatchedEvent event) {
+               try {
+                  services.notify(getServices(klass));
+               } finally {
+                  rewatch(klass, services);
+               }
+            }
+         }).forPath(path + "/" + klass.getName());
+      }
+      catch(Exception e) {
+         throw new RuntimeException(e);
+      }
+   }
+
+   public static interface ServicesWatch<T> {
+      void notify(Collection<T> event);
    }
 
    private <T> Collection<T> getServices(Class<T> klass, String name) {
