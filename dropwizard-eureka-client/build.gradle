@@ -8,6 +8,9 @@ dependencies {
 
     compile("com.netflix.eureka:eureka-client:1.1.132") {
         exclude group: "javax.servlet"
+        exclude group: "com.sun.jersey", module: "jersey-core"
+        exclude group: "com.google.guava", module: "guava"
+        exclude group: "org.slf4j", module: "slf4j-api"
     }
 
     compile project(':dropwizard-discovery')

@@ -4,6 +4,12 @@ subprojects {
     group = 'com.page5of4.dropwizard'
     version = '0.1.0-SNAPSHOT'
 
+    configurations.all {
+        resolutionStrategy {
+            // failOnVersionConflict()
+	}
+    }
+
     repositories {
         mavenLocal()
         mavenCentral()
