@@ -62,14 +62,13 @@ public class EurekaInstance implements Managed {
    }
 
    protected EurekaInstanceConfig createEurekaInstanceConfig(Collection<DiscoveryMetadataProvider> discoveryMetadataProviders) {
-      switch(datacenterType.toLowerCase()) {
-      case "amazon":
-         // return new CloudInstanceConfig(eurekaNamespace);
-      case "developer":
+      if(datacenterType.toLowerCase().equals("developer")) {
          return new DeveloperMachineDataCenterInstanceConfig(eurekaNamespace, discoveryMetadataProviders);
-      default:
-         // return new MyDataCenterInstanceConfig(eurekaNamespace);
       }
+      if(datacenterType.toLowerCase().equals("amazon")) {
+         // return new CloudInstanceConfig(eurekaNamespace);
+      }
+      // return new MyDataCenterInstanceConfig(eurekaNamespace);
       throw new RuntimeException("TODO: Make other InstanceConfig's work with metadata providers.");
    }
 

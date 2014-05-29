@@ -7,10 +7,22 @@ import org.apache.curator.retry.ExponentialBackoffRetry;
 
 public class ZooKeeperConfiguration {
    @JsonProperty
+   private boolean server;
+
+   @JsonProperty
    private String address = "127.0.0.1:2181";
+
    @JsonProperty
    private String servicesPath = "/services";
    private CuratorFramework curator;
+
+   public boolean getServer() {
+      return server;
+   }
+
+   public void setServer(boolean server) {
+      this.server = server;
+   }
 
    public String getAddress() {
       return address;

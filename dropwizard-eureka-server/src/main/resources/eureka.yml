@@ -5,5 +5,5 @@ server:
     connector:
         type: http
         port: 90
-eureka:
+eurekaServer:
     defaultServiceUrl: http://127.0.0.1:90/eureka/v2/

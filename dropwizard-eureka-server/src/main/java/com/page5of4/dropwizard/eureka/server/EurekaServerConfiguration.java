@@ -1,4 +1,4 @@
-package com.page5of4.dropwizard.eureka;
+package com.page5of4.dropwizard.eureka.server;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
