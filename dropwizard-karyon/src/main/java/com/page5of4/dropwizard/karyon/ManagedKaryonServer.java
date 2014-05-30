@@ -27,5 +27,4 @@ public class ManagedKaryonServer implements Managed {
    public void stop() throws Exception {
       server.close();
    }
-
 }

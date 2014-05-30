@@ -17,6 +17,10 @@ public class EurekaServerConfiguration {
    private Integer numberRegistrySyncRetries = 0;
 
    @Valid
+   @JsonProperty
+   private Boolean enableSelfPreservation = true;
+
+   @Valid
    @NotNull
    @JsonProperty
    private String defaultServiceUrl;
@@ -43,6 +47,14 @@ public class EurekaServerConfiguration {
 
    public void setDefaultServiceUrl(String defaultServiceUrl) {
       this.defaultServiceUrl = defaultServiceUrl;
+   }
+
+   public Boolean getEnableSelfPreservation() {
+      return enableSelfPreservation;
+   }
+
+   public void setEnableSelfPreservation(Boolean enableSelfPreservation) {
+      this.enableSelfPreservation = enableSelfPreservation;
    }
 }
 

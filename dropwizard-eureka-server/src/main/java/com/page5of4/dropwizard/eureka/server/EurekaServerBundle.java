@@ -28,6 +28,7 @@ public class EurekaServerBundle implements ConfiguredBundle<ConfiguresEurekaServ
       baseConfiguration.setProperty("eureka.waitTimeInMsWhenSyncEmpty", configuration.getEurekaServer().getWaitTimeInMsWhenSyncEmpty());
       baseConfiguration.setProperty("eureka.numberRegistrySyncRetries", configuration.getEurekaServer().getNumberRegistrySyncRetries());
       baseConfiguration.setProperty("eureka.serviceUrl.default", configuration.getEurekaServer().getDefaultServiceUrl());
+      baseConfiguration.setProperty("eureka.enableSelfPreservation", configuration.getEurekaServer().getEnableSelfPreservation());
       baseConfiguration.setProperty("eureka.shouldFetchRegistry", false);
       ConfigurationManager.loadPropertiesFromConfiguration(baseConfiguration);
 
