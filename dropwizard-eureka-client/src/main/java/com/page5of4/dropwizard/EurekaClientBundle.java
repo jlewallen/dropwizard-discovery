@@ -21,6 +21,11 @@ public class EurekaClientBundle implements ConfiguredBundle<ConfiguresEurekaClie
 
    @Override
    public void run(ConfiguresEurekaClient configuration, Environment environment) throws Exception {
+      EurekaClientConfiguration eurekaConfiguration = configuration.getEureka();
+      if(!eurekaConfiguration.getEnabled()) {
+         return;
+      }
+
       EurekaClientHealthCheck healthCheck = new EurekaClientHealthCheck();
       EurekaInstance eurekaInstance = new EurekaInstance(configuration, healthCheck, discoveryMetadataProviders);
       environment.lifecycle().manage(eurekaInstance);

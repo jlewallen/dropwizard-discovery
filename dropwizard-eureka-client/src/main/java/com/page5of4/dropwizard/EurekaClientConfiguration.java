@@ -32,6 +32,10 @@ public class EurekaClientConfiguration {
    @JsonProperty
    private String defaultServiceUrl;
 
+   @Valid
+   @JsonProperty
+   private boolean enabled = true;
+
    public String getName() {
       return name;
    }
@@ -78,6 +82,14 @@ public class EurekaClientConfiguration {
 
    public void setDefaultServiceUrl(String defaultServiceUrl) {
       this.defaultServiceUrl = defaultServiceUrl;
+   }
+
+   public boolean getEnabled() {
+      return enabled;
+   }
+
+   public void setEnabled(boolean enabled) {
+      this.enabled = enabled;
    }
 }
 
