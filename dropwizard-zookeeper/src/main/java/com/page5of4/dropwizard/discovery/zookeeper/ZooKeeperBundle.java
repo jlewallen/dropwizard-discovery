@@ -12,6 +12,9 @@ public class ZooKeeperBundle implements ConfiguredBundle<ConfiguresZooKeeper> {
 
    @Override
    public void run(ConfiguresZooKeeper configuration, Environment environment) {
+      if(!configuration.getZooKeeper().getEnabled()) {
+         return;
+      }
       if(configuration.getZooKeeper().getServer()) {
          environment.lifecycle().manage(new ManagedZooKeeperServer());
       }

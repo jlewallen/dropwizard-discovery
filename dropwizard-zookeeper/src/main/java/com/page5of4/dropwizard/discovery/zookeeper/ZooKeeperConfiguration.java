@@ -7,6 +7,9 @@ import org.apache.curator.retry.ExponentialBackoffRetry;
 
 public class ZooKeeperConfiguration {
    @JsonProperty
+   private boolean enabled = true;
+
+   @JsonProperty
    private boolean server;
 
    @JsonProperty
@@ -15,6 +18,14 @@ public class ZooKeeperConfiguration {
    @JsonProperty
    private String servicesPath = "/services";
    private CuratorFramework curator;
+
+   public boolean getEnabled() {
+      return enabled;
+   }
+
+   public void setEnabled(boolean enabled) {
+      this.enabled = enabled;
+   }
 
    public boolean getServer() {
       return server;
