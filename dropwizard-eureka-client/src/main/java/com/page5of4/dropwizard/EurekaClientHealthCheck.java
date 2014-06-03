@@ -10,7 +10,6 @@ public class EurekaClientHealthCheck extends HealthCheck implements HealthCheckC
 
    @Override
    protected Result check() throws Exception {
-      logger.info("Running HealthCheck");
       return Result.healthy();
    }
 
